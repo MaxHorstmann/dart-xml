@@ -25,7 +25,7 @@ class XmlTokenizer {
 
   static const List _whiteSpace = const[SPACE, TAB, NEW_LINE, CARRIAGE_RETURN];
 
-  const _specialTags = const ['<!--', '<![CDATA[', '<?', '</'];
+  static const _specialTags = const ['<!--', '<![CDATA[', '<?', '</'];
 
   final ListQueue<XmlToken> _buffer = new ListQueue<XmlToken>();
   final List<XmlToken> _tokenized = new List<XmlToken>();
