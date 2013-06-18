@@ -297,18 +297,30 @@ class XmlCollection<E extends XmlNode> implements List<E> {
   }
 
   /**
-   * Reduce a collection to a single value by iteratively combining each element
+   * Fold a collection to a single value by iteratively combining each element
    * of the collection with an existing value using the provided function.
    * Use [initialValue] as the initial value, and the function [combine] to
    * create a new value from the previous one and an element.
    *
    * Example of calculating the sum of a collection:
    *
-   *   collection.reduce(0, (prev, element) => prev + element);
+   *   collection.fold(0, (prev, element) => prev + element);
    */
-  dynamic reduce(var initialValue,
-                 dynamic combine(var previousValue, E element)) =>
-      _collection.reduce(initialValue, combine);
+  dynamic fold(var initialValue,
+               dynamic combine(var previousValue, E element)) =>
+      _collection.fold(initialValue, combine);
+
+  /**
+   * Reduces a collection to a single value by iteratively combining elements
+   * of the collection using the provided function.
+   *
+   * Example of calculating the sum of an iterable:
+   *
+   *     iterable.reduce((value, element) => value + element);
+   *
+   */
+  dynamic reduce(dynamic combine(var previousValue, E element)) =>
+      _collection.reduce(combine);
 
   /**
    * Returns true if every elements of this collection satisify the
