@@ -241,7 +241,7 @@ class XmlCollection<E extends XmlNode> implements List<E> {
   *
    * Has no effect if the elements is not in this collection.
    */
-  void remove(E element) => _collection.remove(element);
+  bool remove(E element) => _collection.remove(element);
 
   /**
    * Removes all of [elements] from this collection.
