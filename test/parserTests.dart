@@ -30,6 +30,16 @@ parserTests(){
       expect('foo', equals(result.name));
     });
 
+    test('ignore declaration at the beginning', (){
+      var result = XML.parse('<?xml version="1.1"?><foo></foo>');
+      expect(result, new isInstanceOf<XmlElement>());
+      expect('foo', equals(result.name));
+    });
+
+    test('throw on declaration at the end', (){
+      expect(() => XML.parse('<foo></foo><?xml version="1.0"?>'), throwsA(new isInstanceOf<XmlException>()));
+    });
+
     test('throw on no close tag', (){
       expect(() => XML.parse('<foo><bar></bar>'), throwsA(new isInstanceOf<XmlException>()));
     });
