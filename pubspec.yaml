@@ -1,8 +1,8 @@
 name: xml
-description: A lightweight XML Parser.
-version: 0.9.3+2
+version: 0.9.3+3
 author: John Evans <prujohn@gmail.com>
+description: A lightweight XML Parser.
 homepage: https://github.com/prujohn/dart-xml
 dependencies:
-  unittest: ">=0.5.5"
-  browser: ">=0.4.1"
+  browser: '>=0.4.1'
+  unittest: '>=0.5.5'
