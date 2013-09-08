@@ -5,19 +5,29 @@ part of xml_utils_prujohn;
 */
 class XmlElement extends XmlNode {
   final String name;
-  final XmlCollection<XmlNode> _children;
-  final Map<String, String> _attributes;
-  final Map<String, String> _namespaces;
+
+  /**
+  * Gets a collection of children under this [XmlElement].
+  */
+  final XmlCollection<XmlNode> children =
+      new XmlCollection<XmlNode>._internal();
+
+  /**
+  * Gets a map of name/value attributue pairs associated with
+  * this [XmlElement].
+  */
+  final Map<String, String> attributes = new Map<String, String>();
+
+  /**
+  * Gets a map of name/uri namespace pairs associated with
+  * this [XmlElement].
+  */
+  final Map<String, String> namespaces = new Map<String, String>();
 
   //final String namespace; //future
 
-  XmlElement(this.name, {List<XmlNode> elements: const []})
-  :
-    _children = new XmlCollection<XmlNode>._internal(),
-    _attributes = {},
-    _namespaces = {},
-    super(XmlNodeType.Element)
-  {
+  XmlElement(this.name, {Iterable<XmlNode> elements: const []}) :
+    super(XmlNodeType.Element) {
     addChildren(elements);
   }
 
@@ -25,30 +35,13 @@ class XmlElement extends XmlNode {
   * Gets a [String] of any text within this [XmlElement].
   */
   String get text {
-    var tNodes = _children.where((el) => el is XmlText);
+    var tNodes = children.where((el) => el is XmlText);
     if (tNodes.isEmpty) return '';
 
     var s = new StringBuffer();
     tNodes.forEach((XmlText n) => s.write(n.text));
     return s.toString();
   }
-
-  /**
-  * Gets a map of name/uri namespace pairs associated with
-  * this [XmlElement].
-  */
-  Map<String, String> get namespaces => _namespaces;
-
-  /**
-  * Gets a map of name/value attributue pairs associated with
-  * this [XmlElement].
-  */
-  Map<String, String> get attributes => _attributes;
-
-  /**
-  * Gets a collection of children under this [XmlElement].
-  */
-  XmlCollection get children => _children;
 
   /**
   * Gets a collection of siblings related to this [XmlElement].
@@ -62,7 +55,7 @@ class XmlElement extends XmlNode {
   Iterable<XmlNamespace> get namespacesInScope {
     List<XmlNamespace> l = [];
 
-    _namespaces.forEach((nname, uri){
+    namespaces.forEach((nname, uri){
       l.add(new XmlNamespace(nname, uri));
     });
 
@@ -84,11 +77,11 @@ class XmlElement extends XmlNode {
   * Gets the previous sibling to the this [XmlElement], or null if none exists.
   */
   XmlNode get previousSibling {
-    var i = parent._children.indexOf(this);
+    var i = parent.children.indexOf(this);
 
     if (i <= 0) return null;
 
-    return parent._children[i - 1];
+    return parent.children[i - 1];
   }
 
   /**
@@ -96,17 +89,17 @@ class XmlElement extends XmlNode {
   * exists.
   */
   XmlNode get nextSibling {
-    if (parent._children.last == this) return null;
+    if (parent.children.last == this) return null;
 
-    var i = parent._children.indexOf(this);
+    var i = parent.children.indexOf(this);
 
-    return parent._children[i + 1];
+    return parent.children[i + 1];
   }
 
   /**
   * Gets a boolean indicating of this [XmlElement] has any child elements.
   */
-  bool get hasChildren => !_children.isEmpty;
+  bool get hasChildren => !children.isEmpty;
 
   /**
   * Adds a child [XmlNode] to this [XmlElement].
@@ -127,16 +120,14 @@ class XmlElement extends XmlNode {
     }
 
     element.parent = this;
-    _children.add(element);
+    children.add(element);
   }
 
   /**
   * Adds a collection of [XmlNode]s to this [XmlElement].
   */
-  void addChildren(List<XmlNode> elements){
-    if (!elements.isEmpty){
-      elements.forEach((XmlNode e) => addChild(e));
-    }
+  void addChildren(Iterable<XmlNode> elements){
+    elements.forEach(addChild);
   }
 
   /**
