@@ -2,7 +2,7 @@ import 'package:unittest/html_enhanced_config.dart';
 
 import 'test_runner.dart';
 
-main() {
+void main() {
   useHtmlEnhancedConfiguration();
   runXmlTests();
 }
