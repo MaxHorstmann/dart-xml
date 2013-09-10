@@ -14,12 +14,12 @@ class XmlNode {
   void remove(){
     if (parent == null) return;
 
-    var i = parent._children.indexOf(this);
+    var i = parent.children.indexOf(this);
     if (i == -1){
       throw const XmlException('Element not found.');
     }
 
-    parent._children.removeRange(i, 1);
+    parent.children.removeRange(i, 1);
   }
 
   /// Returns a text representation of the XmlNode tree.
