@@ -1,5 +1,5 @@
 name: xml
-version: 0.9.3+5
+version: 0.9.3+6
 author: John Evans <prujohn@gmail.com>
 description: A lightweight XML Parser.
 homepage: https://github.com/prujohn/dart-xml
