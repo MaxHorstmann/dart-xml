@@ -36,10 +36,10 @@ parserTests(){
           <test:bar/>
         </foo>
       ''';
-      
+
       var result = XML.parse(xml);
       expect('foo', equals(result.name));
-      
+
       var element = result.children[0] as XmlElement;
       expect(element.name, equals("test:bar"));
       expect(element.isNamespaceInScope('test'), isTrue);
@@ -51,13 +51,22 @@ parserTests(){
           <test:bar id="1"/>
         </foo>
       ''';
-      
+
       var result = XML.parse(xml);
       expect('foo', equals(result.name));
-      
+
       var element = result.children[0] as XmlElement;
       expect(element.name, equals("test:bar"));
       expect(element.isNamespaceInScope('test'), isTrue);
+
+    test('ignore declaration at the beginning', (){
+      var result = XML.parse('<?xml version="1.1"?><foo></foo>');
+      expect(result, new isInstanceOf<XmlElement>());
+      expect('foo', equals(result.name));
+    });
+
+    test('throw on declaration at the end', (){
+      expect(() => XML.parse('<foo></foo><?xml version="1.0"?>'), throwsA(new isInstanceOf<XmlException>()));
     });
 
     test('throw on no close tag', (){
@@ -281,6 +290,7 @@ with line breaks
           <textblock margin="10,0,0,0" text="Video On How Element Binding Works:"></textblock>
           <youtube width="300" height="250" videoid="WC25C5AHYAI"></youtube>
         </stackpanel>''');
+      });
     });
   });
 }

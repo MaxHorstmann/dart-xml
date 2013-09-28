@@ -8,7 +8,7 @@ queryTests(){
       var parsed = XML.parse(testXml);
       var result = parsed.query('TextBlock');
       expect(1, equals(result.length));
-      expect('hello', equals(((result[0] as XmlElement) as XmlElement).attributes['text']));
+      expect('hello', equals((result[0] as XmlElement).attributes['text']));
     });
 
     test('single XmlNodeType query succeeds', (){
