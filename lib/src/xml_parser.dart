@@ -68,11 +68,6 @@ class XmlParser {
 
   _parsePI(XmlTokenizer t){
 
-    if (_scopes.isEmpty){
-      throw const XmlException('PI nodes are not supported in the top'
-        ' level.');
-    }
-
     XmlToken next = t.next();
 
     _assertKind(next, XmlToken.STRING);
@@ -80,6 +75,16 @@ class XmlParser {
 
     next = t.next();
     _assertKind(next, XmlToken.END_PI);
+
+    if (_scopes.isEmpty) {
+        if (_root == null && data != null && data.startsWith("xml ")) {
+          // Ignore XML declaration at the beginning, i.e <?xml … ?>
+          return;
+        } else {
+            throw const XmlException('PI nodes are not supported in the top'
+            ' level.');
+        }
+    }
 
     _peek().addChild(new XmlProcessingInstruction(data));
   }
