@@ -15,6 +15,11 @@ parserTests(){
     test('namespace attribute appears before xmlns declaration in same tag', (){
       var parsed = XML.parse(xmlnsXml);
     });
+    
+    test('tag name uses namespace before xmlns declaration in same tag', (){
+      var parsed = XML.parse(xmlnsElementXml);
+    });
+    
 
     test('no fidelity lost during successive parse/stringify', (){
       var parsed = XML.parse(testXml);
