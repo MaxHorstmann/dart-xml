@@ -46,6 +46,15 @@ const String xmlnsXml =
 </StackPanel>
 ''';
 
+const String xmlnsElementXml =
+'''
+<nstest:StackPanel 
+  xmlns:nstest='http://www.lucastudios.com/'
+  <?hello world?>
+</nstestStackPanel>
+''';
+
+
 const String testXml =
 '''
 <!-- comment -->
