@@ -48,10 +48,9 @@ const String xmlnsXml =
 
 const String xmlnsElementXml =
 '''
-<nstest:StackPanel 
-  xmlns:nstest='http://www.lucastudios.com/'
-  <?hello world?>
-</nstestStackPanel>
+<nstest:StackPanel xmlns:nstest='http://www.lucastudios.com/'>
+  <nstest:foo></nstest:foo>
+</nstest:StackPanel>
 ''';
 
 

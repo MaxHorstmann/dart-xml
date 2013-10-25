@@ -187,17 +187,16 @@ class XmlParser {
       _peek().addChild(newElement);
       _push(newElement);
     }
+    
+    var peekTag = _peek();
 
-    if (_peek().name.contains(':')){
-      var ns = _peek().name.split(':')[0];
-
-      if (!_peek().isNamespaceInScope(ns)){
-        throw new XmlException.withDebug('Namespace "${ns}" is'
-          ' not declared in scope.', _xml, next._location);
-      }
+    var ns='';
+    if (peekTag.name.contains(':')){
+      ns = peekTag.name.split(':')[0];
       next = t.next();
     }
 
+    var done = false;
     while(next != null){
 
       switch(next.kind){
@@ -209,17 +208,24 @@ class XmlParser {
           break;
         case XmlToken.GT:
           _parseElement(t);
-          return;
+          done = true;
+          break;
         case XmlToken.SLASH:
           next = t.next();
           _assertKind(next, XmlToken.GT);
           _pop();
-          return;
+          done = true;
+          break;
         default:
           throw new XmlException.withDebug(
             'Invalid xml ${next} found at this location.',
             _xml,
             next._location);
+      }
+      
+      if (done)
+      {
+        break;
       }
 
       next = t.next();
@@ -227,7 +233,14 @@ class XmlParser {
       if (next == null){
         throw new Exception('Unexpected end of file.');
       }
+      
     }
+    
+    if ((ns.isNotEmpty) && (!peekTag.isNamespaceInScope(ns))){
+      throw new XmlException.withDebug('Namespace "${ns}" is'
+      ' not declared in scope.', _xml, next._location);      
+    }
+    
   }
 
   void _parseTextNode(XmlTokenizer t, String text){
